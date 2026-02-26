@@ -81,9 +81,9 @@ const Hero = () => {
   const logos = ['Al Jazeera', 'Bloomberg', 'The World Bank', 'Gavi', 'UNOPS', 'Deloitte', 'ATScale'];
   
   return (
-    <section className="bg-[#051126] pt-12 pb-24 overflow-hidden">
+    <section className="bg-[#051126] pt-12 pb-12 md:pb-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Image */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
@@ -110,31 +110,31 @@ const Hero = () => {
             <h4 className="text-teal-accent text-xs font-bold uppercase tracking-widest mb-4">
               Professional Videographer in Geneva, Switzerland
             </h4>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold leading-[1.1] mb-6 text-white">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-extrabold leading-[1.1] mb-4 md:mb-6 text-white">
               <span className="whitespace-nowrap">Broadcast-Quality</span><br/>
               Video Production<br/>
               for <span className="text-teal-accent">Global Organisations</span>
             </h1>
-            <p className="text-gray-400 text-lg mb-8 max-w-lg leading-relaxed">
+            <p className="text-gray-400 text-base md:text-lg mb-6 md:mb-8 max-w-lg leading-relaxed">
               Broadcast-quality video production trusted by UN agencies, NGOs, embassies, and global organizations. Based in Geneva. Available across Switzerland and internationally.
             </p>
             
-            <div className="flex flex-wrap gap-4 mb-12">
+            <div className="flex flex-wrap gap-4 mb-8 md:mb-12">
               <a href="#contact" className="btn-primary">Request a Quote</a>
               <a href="#services" className="btn-outline">View Services</a>
             </div>
 
-            <div className="grid grid-cols-3 gap-8 border-t border-white/10 pt-8">
+            <div className="grid grid-cols-3 gap-4 md:gap-8 border-t border-white/10 pt-8">
               <div>
-                <div className="text-3xl font-display font-bold text-teal-accent mb-1">20+</div>
+                <div className="text-2xl md:text-3xl font-display font-bold text-teal-accent mb-1">20+</div>
                 <div className="text-[10px] uppercase tracking-widest text-gray-500">Years Experience</div>
               </div>
               <div>
-                <div className="text-3xl font-display font-bold text-teal-accent mb-1">12</div>
+                <div className="text-2xl md:text-3xl font-display font-bold text-teal-accent mb-1">12</div>
                 <div className="text-[10px] uppercase tracking-widest text-gray-500">Countries</div>
               </div>
               <div>
-                <div className="text-3xl font-display font-bold text-teal-accent mb-1">24h</div>
+                <div className="text-2xl md:text-3xl font-display font-bold text-teal-accent mb-1">24h</div>
                 <div className="text-[10px] uppercase tracking-widest text-gray-500">Preview Delivery</div>
               </div>
             </div>
@@ -146,7 +146,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-24 pt-12 border-t border-white/5 overflow-hidden relative"
+          className="mt-12 md:mt-24 pt-12 border-t border-white/5 overflow-hidden relative"
         >
           <p className="text-center text-[10px] uppercase tracking-widest text-gray-600 mb-8">Trusted by Global Organisations</p>
           
@@ -179,33 +179,39 @@ const Hero = () => {
 
 const About = () => {
   return (
-    <section id="about" className="bg-[#0a1930] py-24">
+    <section id="about" className="bg-[#0a1930] py-12 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-12">
-          <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight">
+        <div className="mb-8 md:mb-12">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight">
             Institutional Standards.<br/>
             <span className="text-teal-accent">Human Stories.</span>
           </h2>
         </div>
 
         {/* Video Placeholder */}
-        <div className="relative aspect-video bg-gray-900 rounded-sm overflow-hidden mb-16 group cursor-pointer">
+        <a 
+          href="https://youtu.be/kKBzr5esXms"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block relative aspect-video bg-gray-900 rounded-sm overflow-hidden mb-8 md:mb-16 group cursor-pointer shadow-lg hover:shadow-teal-accent/20 transition-all duration-300 hover:-translate-y-2"
+        >
           <img 
             src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070&auto=format&fit=crop" 
             alt="Video Reel" 
-            className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity"
+            className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500 group-hover:scale-105"
           />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-20 h-20 bg-red-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-              <Play className="w-8 h-8 text-white fill-white" />
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-red-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg z-10">
+              <Play className="w-6 h-6 md:w-8 md:h-8 text-white fill-white" />
             </div>
           </div>
-          <div className="absolute bottom-6 left-6 bg-black/80 px-3 py-1 text-xs font-bold text-white flex items-center gap-2">
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
+          <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 bg-black/80 px-3 py-1 text-[10px] md:text-xs font-bold text-white flex items-center gap-2 backdrop-blur-sm">
             Watch on <span className="font-bold">YouTube</span>
           </div>
-        </div>
+        </a>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
           <div className="space-y-6 text-gray-400 leading-relaxed">
             <p>
               I am a professional videographer in Geneva providing high-quality video production services for corporate organisations, international institutions, NGOs, and private clients across Switzerland.
@@ -288,16 +294,16 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="bg-[#051126] py-24">
+    <section id="services" className="bg-[#051126] py-12 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight text-white">
+        <div className="mb-8 md:mb-16">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white">
             Production Services<br/>
             in <span className="text-teal-accent">Geneva, Switzerland</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {services.map((service) => (
             <div key={service.id} className="group">
               <div className="h-48 overflow-hidden mb-6">
@@ -366,15 +372,15 @@ const Work = () => {
   ];
 
   return (
-    <section id="work" className="bg-[#051126] py-24">
+    <section id="work" className="bg-[#051126] py-12 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-12">
-          <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight text-white">
+        <div className="mb-8 md:mb-12">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white">
             Selected <span className="text-teal-accent">Work</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8 md:gap-y-16">
           {projects.map((project, index) => (
             <motion.a 
               href={project.link}
@@ -429,17 +435,17 @@ const Work = () => {
 
 const WhyMe = () => {
   return (
-    <section id="why-me" className="bg-[#0a1930] py-24">
+    <section id="why-me" className="bg-[#0a1930] py-12 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-16">
+        <div className="mb-8 md:mb-16">
           <h4 className="text-[10px] uppercase tracking-widest text-teal-accent mb-2">WHY CHOOSE ME</h4>
-          <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight text-white">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white">
             Why Hire a Local<br/>
             <span className="text-teal-accent">Geneva Videographer?</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
           <div className="space-y-12">
             {[
               { id: "I", title: "20+ YEARS INTERNATIONAL EXPERIENCE", desc: "Working with organisations such as Al Jazeera, Bloomberg, The World Bank Group, UN agencies, and CNBC — ensuring international production standards for clients in Switzerland." },
@@ -519,16 +525,16 @@ const Contact = () => {
   const inputClasses = "w-full bg-[#0a1930] border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-teal-accent transition-all duration-300 placeholder:text-gray-600 focus:bg-[#0d2140]";
 
   return (
-    <section id="contact" className="bg-[#051126] py-24">
+    <section id="contact" className="bg-[#051126] py-12 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-12">
+        <div className="mb-8 md:mb-12">
           <h4 className="text-[10px] uppercase tracking-widest text-teal-accent mb-2">GET IN TOUCH</h4>
-          <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight text-white">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white">
             Request a <span className="text-teal-accent">Quote</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
           <div className="space-y-8 text-sm text-gray-400">
             <p>
               If you are searching for a reliable and experienced videographer in <span className="text-white font-bold">Geneva, Switzerland</span>, get in touch to discuss your corporate video, conference filming, documentary, or branded content project — including your timeline, deliverables, and budget.
