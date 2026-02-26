@@ -78,6 +78,8 @@ const Navbar = () => {
 };
 
 const Hero = () => {
+  const logos = ['Al Jazeera', 'Bloomberg', 'The World Bank', 'Gavi', 'UNOPS', 'Deloitte', 'ATScale'];
+  
   return (
     <section className="bg-[#051126] pt-12 pb-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
@@ -91,7 +93,7 @@ const Hero = () => {
           >
             <div className="aspect-[3/4] overflow-hidden rounded-sm bg-gray-800 relative group">
                <img 
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop" 
+                src="https://i.imgur.com/bMiZfMs.jpeg" 
                 alt="Toba Oduwaiye" 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
@@ -109,11 +111,9 @@ const Hero = () => {
               Professional Videographer in Geneva, Switzerland
             </h4>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold leading-[1.1] mb-6 text-white">
-              Broadcast-<br/>
-              Quality<br/>
-              Video<br/>
-              Production<br/>
-              for <span className="text-teal-accent">Global<br/>Organisations</span>
+              <span className="whitespace-nowrap">Broadcast-Quality</span><br/>
+              Video Production<br/>
+              for <span className="text-teal-accent">Global Organisations</span>
             </h1>
             <p className="text-gray-400 text-lg mb-8 max-w-lg leading-relaxed">
               Broadcast-quality video production trusted by UN agencies, NGOs, embassies, and global organizations. Based in Geneva. Available across Switzerland and internationally.
@@ -141,21 +141,35 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        {/* Logos */}
+        {/* Logos Marquee */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-24 pt-12 border-t border-white/5"
+          className="mt-24 pt-12 border-t border-white/5 overflow-hidden relative"
         >
           <p className="text-center text-[10px] uppercase tracking-widest text-gray-600 mb-8">Trusted by Global Organisations</p>
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-300">
-            {/* Placeholder Logos */}
-            {['Al Jazeera', 'Bloomberg', 'The World Bank', 'Gavi', 'UNOPS', 'Deloitte', 'ATScale'].map((logo) => (
-              <div key={logo} className="h-12 w-24 bg-white rounded flex items-center justify-center text-black text-[10px] font-bold hover:scale-105 transition-transform cursor-default">
-                {logo}
-              </div>
-            ))}
+          
+          <div className="flex relative w-full overflow-hidden mask-linear-gradient">
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#051126] to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#051126] to-transparent z-10" />
+            
+            <motion.div 
+              className="flex gap-16 items-center whitespace-nowrap pr-16"
+              animate={{ x: "-50%" }}
+              transition={{ 
+                repeat: Infinity, 
+                ease: "linear", 
+                duration: 30 
+              }}
+              style={{ width: "max-content" }}
+            >
+              {[...logos, ...logos, ...logos, ...logos].map((logo, index) => (
+                <div key={index} className="h-12 w-32 bg-white rounded flex items-center justify-center text-black text-[10px] font-bold shrink-0 opacity-70 hover:opacity-100 transition-opacity hover:scale-105 transform cursor-default">
+                  {logo}
+                </div>
+              ))}
+            </motion.div>
           </div>
         </motion.div>
       </div>
@@ -476,6 +490,34 @@ const WhyMe = () => {
 };
 
 const Contact = () => {
+  const [formState, setFormState] = useState({
+    name: '',
+    organisation: '',
+    email: '',
+    service: '',
+    details: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormState(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const inputClasses = "w-full bg-[#0a1930] border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-teal-accent transition-all duration-300 placeholder:text-gray-600 focus:bg-[#0d2140]";
+
   return (
     <section id="contact" className="bg-[#051126] py-24">
       <div className="max-w-7xl mx-auto px-6">
@@ -524,61 +566,124 @@ const Contact = () => {
             </div>
           </div>
 
-          <form className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">NAME</label>
-                <input 
-                  type="text" 
-                  className="w-full bg-[#0a1930] border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-teal-accent transition-colors"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">ORGANISATION</label>
-                <input 
-                  type="text" 
-                  className="w-full bg-[#0a1930] border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-teal-accent transition-colors"
-                  placeholder="Your organisation"
-                />
-              </div>
-            </div>
-            
-            <div>
-              <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">EMAIL</label>
-              <input 
-                type="email" 
-                className="w-full bg-[#0a1930] border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-teal-accent transition-colors"
-                placeholder="your@email.com"
-              />
-            </div>
+          <div className="relative">
+            {isSubmitted ? (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-[#0a1930] border border-teal-accent/20 p-8 rounded-sm text-center h-full flex flex-col items-center justify-center min-h-[400px]"
+              >
+                <div className="w-16 h-16 bg-teal-accent/10 rounded-full flex items-center justify-center mb-6">
+                  <Check className="w-8 h-8 text-teal-accent" />
+                </div>
+                <h3 className="text-2xl font-display font-bold text-white mb-2">Message Sent!</h3>
+                <p className="text-gray-400 mb-8 max-w-xs mx-auto">
+                  Thank you for your enquiry. I will get back to you within one business day.
+                </p>
+                <button 
+                  onClick={() => setIsSubmitted(false)}
+                  className="text-teal-accent text-sm font-bold uppercase tracking-widest hover:text-white transition-colors"
+                >
+                  Send another message
+                </button>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                    <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">NAME</label>
+                    <input 
+                      type="text" 
+                      name="name"
+                      required
+                      value={formState.name}
+                      onChange={handleChange}
+                      className={inputClasses}
+                      placeholder="Your name"
+                    />
+                  </motion.div>
+                  <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                    <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">ORGANISATION</label>
+                    <input 
+                      type="text" 
+                      name="organisation"
+                      value={formState.organisation}
+                      onChange={handleChange}
+                      className={inputClasses}
+                      placeholder="Your organisation"
+                    />
+                  </motion.div>
+                </div>
+                
+                <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                  <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">EMAIL</label>
+                  <input 
+                    type="email" 
+                    name="email"
+                    required
+                    value={formState.email}
+                    onChange={handleChange}
+                    className={inputClasses}
+                    placeholder="your@email.com"
+                  />
+                </motion.div>
 
-            <div>
-              <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">SERVICE REQUIRED</label>
-              <select className="w-full bg-[#0a1930] border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-teal-accent transition-colors appearance-none">
-                <option>Select a service</option>
-                <option>Corporate Video</option>
-                <option>Event Coverage</option>
-                <option>Documentary</option>
-              </select>
-            </div>
+                <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                  <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">SERVICE REQUIRED</label>
+                  <div className="relative">
+                    <select 
+                      name="service"
+                      value={formState.service}
+                      onChange={handleChange}
+                      className={`${inputClasses} appearance-none cursor-pointer`}
+                    >
+                      <option value="" disabled>Select a service</option>
+                      <option value="Corporate Video">Corporate Video</option>
+                      <option value="Event Coverage">Event Coverage</option>
+                      <option value="Documentary">Documentary</option>
+                      <option value="Photography">Photography</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                </motion.div>
 
-            <div>
-              <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">PROJECT DETAILS</label>
-              <textarea 
-                rows={4}
-                className="w-full bg-[#0a1930] border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-teal-accent transition-colors"
-                placeholder="Tell me about your project — type of project, event date, location, deliverables required, and your deadline..."
-              />
-            </div>
+                <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                  <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">PROJECT DETAILS</label>
+                  <textarea 
+                    rows={4}
+                    name="details"
+                    required
+                    value={formState.details}
+                    onChange={handleChange}
+                    className={inputClasses}
+                    placeholder="Tell me about your project — type of project, event date, location, deliverables required, and your deadline..."
+                  />
+                </motion.div>
 
-            <button 
-              type="submit"
-              className="btn-primary w-full md:w-auto"
-            >
-              Send Enquiry
-            </button>
-          </form>
+                <motion.button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`btn-primary w-full md:w-auto flex items-center justify-center gap-2 ${isSubmitting ? 'opacity-70 cursor-wait' : ''}`}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-[#051126] border-t-transparent rounded-full animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    'Send Enquiry'
+                  )}
+                </motion.button>
+              </form>
+            )}
+          </div>
         </div>
       </div>
     </section>
