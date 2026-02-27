@@ -1,6 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const WhyMe = () => {
+  const locations = [
+    { name: 'GENEVA', path: '/' },
+    { name: 'LAUSANNE', path: '/locations/lausanne' },
+    { name: 'ZURICH', path: '/locations/zurich' },
+    { name: 'BERN', path: '/locations/bern' },
+    { name: 'BASEL', path: '/locations/basel' },
+    { name: 'DAVOS', path: '/locations/davos' },
+    { name: 'INTERNATIONAL', path: '/contact' }
+  ];
+
   return (
     <section id="why-me" className="bg-[#0a1930] py-12 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
@@ -49,10 +60,14 @@ const WhyMe = () => {
             </div>
             
             <div className="mt-4 flex flex-wrap gap-2">
-              {['GENEVA', 'LAUSANNE', 'ZURICH', 'BERN', 'BASEL', 'DAVOS', 'INTERNATIONAL'].map((tag) => (
-                <span key={tag} className="text-[10px] uppercase tracking-widest text-gray-500 border border-white/10 px-3 py-1">
-                  {tag}
-                </span>
+              {locations.map((loc) => (
+                <Link 
+                  key={loc.name} 
+                  to={loc.path}
+                  className="text-[10px] uppercase tracking-widest text-gray-500 border border-white/10 px-3 py-1 hover:border-teal-accent hover:text-teal-accent transition-colors"
+                >
+                  {loc.name}
+                </Link>
               ))}
             </div>
           </div>

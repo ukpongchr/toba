@@ -37,8 +37,8 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Corporate Videographer in Geneva, Switzerland | Toba Oduwaiye</title>
-        <meta name="description" content="Professional corporate videographer in Geneva providing broadcast-quality video production for UN agencies, NGOs, and global organizations." />
+        <title>Corporate Videographer in Geneva | Toba Oduwaiye</title>
+        <meta name="description" content="Broadcast-quality video production for UN agencies, NGOs, embassies and global organisations in Geneva, Switzerland. 20+ years experience. 24h preview delivery." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}
         </script>

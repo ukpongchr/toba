@@ -3,7 +3,15 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
-  const logos = ['Al Jazeera', 'Bloomberg', 'The World Bank', 'Gavi', 'UNOPS', 'Deloitte', 'ATScale'];
+  const clients = [
+    { name: 'Al Jazeera', url: 'https://www.aljazeera.com' },
+    { name: 'Bloomberg', url: 'https://www.bloomberg.com' },
+    { name: 'The World Bank', url: 'https://www.worldbank.org' },
+    { name: 'Gavi', url: 'https://www.gavi.org' },
+    { name: 'UNOPS', url: 'https://www.unops.org' },
+    { name: 'Deloitte', url: 'https://www2.deloitte.com' },
+    { name: 'ATScale', url: 'https://atscalepartnership.org' }
+  ];
   
   return (
     <section className="bg-[#051126] pt-12 pb-12 md:pb-24 overflow-hidden">
@@ -88,10 +96,16 @@ const Hero = () => {
               }}
               style={{ width: "max-content" }}
             >
-              {[...logos, ...logos, ...logos, ...logos].map((logo, index) => (
-                <div key={index} className="h-12 w-32 bg-white rounded flex items-center justify-center text-black text-[10px] font-bold shrink-0 opacity-70 hover:opacity-100 transition-opacity hover:scale-105 transform cursor-default">
-                  {logo}
-                </div>
+              {[...clients, ...clients, ...clients, ...clients].map((client, index) => (
+                <a 
+                  key={index} 
+                  href={client.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-12 w-32 bg-white rounded flex items-center justify-center text-black text-[10px] font-bold shrink-0 opacity-70 hover:opacity-100 transition-opacity hover:scale-105 transform cursor-pointer"
+                >
+                  {client.name}
+                </a>
               ))}
             </motion.div>
           </div>
