@@ -13,7 +13,7 @@ const ContactPage = () => {
     "mainEntity": {
       "@type": "LocalBusiness",
       "name": "Toba Oduwaiye",
-      "email": "toba@oduwaiye.com",
+      "email": "oduwaiye.toba@gmail.com",
       "areaServed": "Geneva"
     }
   };

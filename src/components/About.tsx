@@ -1,23 +1,42 @@
-import React from 'react';
-import { Play } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Play, X } from 'lucide-react';
 
 const About = () => {
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+
+  const videoLink = "https://youtu.be/kKBzr5esXms";
+
+  const getYouTubeId = (url: string) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  };
+
+  const handleVideoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const videoId = getYouTubeId(videoLink);
+    if (videoId) {
+      setSelectedVideo(videoId);
+    } else {
+      window.open(videoLink, '_blank');
+    }
+  };
+
   return (
     <section id="about" className="bg-[#0a1930] py-12 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-8 md:mb-12">
           <h4 className="text-[10px] uppercase tracking-widest text-teal-accent mb-2">ABOUT ME</h4>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white">
             Institutional Standards.<br/>
             <span className="text-teal-accent">Human Stories.</span>
           </h2>
         </div>
 
         {/* Video Placeholder */}
-        <a 
-          href="https://youtu.be/kKBzr5esXms"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div 
+          onClick={handleVideoClick}
           className="block relative aspect-video bg-gray-900 rounded-sm overflow-hidden mb-8 md:mb-16 group cursor-pointer shadow-lg hover:shadow-teal-accent/20 transition-all duration-300 hover:-translate-y-2"
         >
           <img 
@@ -34,7 +53,7 @@ const About = () => {
           <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 bg-black/80 px-3 py-1 text-[10px] md:text-xs font-bold text-white flex items-center gap-2 backdrop-blur-sm">
             Watch on <span className="font-bold">YouTube</span>
           </div>
-        </a>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
           <div className="space-y-6 text-gray-400 leading-relaxed">
@@ -68,6 +87,41 @@ const About = () => {
           </div>
         </div>
       </div>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 md:p-8"
+            onClick={() => setSelectedVideo(null)}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl border border-white/10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button 
+                onClick={() => setSelectedVideo(null)}
+                className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-red-600 text-white p-2 rounded-full transition-colors backdrop-blur-sm"
+              >
+                <X size={24} />
+              </button>
+              <iframe 
+                src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1&rel=0`} 
+                title="YouTube video player" 
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

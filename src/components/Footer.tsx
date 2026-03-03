@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Linkedin, Youtube } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -24,7 +25,29 @@ const Footer = () => {
             </ul>
           </div>
           <div className="md:col-span-2 flex flex-col md:items-end justify-between">
-            <div className="text-teal-accent font-display font-bold text-sm mb-4 md:mb-0">Toba Oduwaiye</div>
+            <div className="flex flex-col items-end gap-4 mb-4 md:mb-0">
+              <div className="text-teal-accent font-display font-bold text-sm">Toba Oduwaiye</div>
+              <div className="flex gap-4">
+                <a 
+                  href="https://www.linkedin.com/in/tobaoduwaiye/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-teal-accent transition-colors"
+                  aria-label="LinkedIn Profile"
+                >
+                  <Linkedin size={18} />
+                </a>
+                <a 
+                  href="https://www.youtube.com/@tobaoduwaiye" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-teal-accent transition-colors"
+                  aria-label="YouTube Channel"
+                >
+                  <Youtube size={18} />
+                </a>
+              </div>
+            </div>
             <div className="text-gray-600 text-[10px] uppercase tracking-widest text-right">
               Based in Geneva, Switzerland<br/>
               © {new Date().getFullYear()} Toba Oduwaiye. All rights reserved.

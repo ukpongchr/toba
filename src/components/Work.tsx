@@ -1,8 +1,10 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Play, Clock, Share2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Play, Clock, Share2, X } from 'lucide-react';
 
 const Work = () => {
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+
   const projects = [
     {
       title: "Africa Collective — Africa Business Day",
@@ -41,6 +43,22 @@ const Work = () => {
     }
   ];
 
+  const getYouTubeId = (url: string) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  };
+
+  const handleVideoClick = (e: React.MouseEvent, link: string) => {
+    e.preventDefault();
+    const videoId = getYouTubeId(link);
+    if (videoId) {
+      setSelectedVideo(videoId);
+    } else {
+      window.open(link, '_blank');
+    }
+  };
+
   return (
     <section id="work" className="bg-[#051126] py-12 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
@@ -53,17 +71,15 @@ const Work = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8 md:gap-y-16">
           {projects.map((project, index) => (
-            <motion.a 
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.div 
               key={index} 
-              className="group block"
+              className="group block cursor-pointer"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ y: -10 }}
+              onClick={(e) => handleVideoClick(e, project.link)}
             >
               <div className="relative aspect-video bg-gray-900 mb-6 overflow-hidden rounded-sm shadow-lg group-hover:shadow-teal-accent/20 transition-all duration-300">
                 <img 
@@ -96,10 +112,45 @@ const Work = () => {
               <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
                 {project.desc}
               </p>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 md:p-8"
+            onClick={() => setSelectedVideo(null)}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl border border-white/10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button 
+                onClick={() => setSelectedVideo(null)}
+                className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-red-600 text-white p-2 rounded-full transition-colors backdrop-blur-sm"
+              >
+                <X size={24} />
+              </button>
+              <iframe 
+                src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1&rel=0`} 
+                title="YouTube video player" 
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

@@ -50,7 +50,7 @@ const Contact = () => {
             <div className="space-y-4 pt-4">
               <div className="grid grid-cols-[100px_1fr] gap-4">
                 <span className="text-[10px] uppercase tracking-widest text-gray-500">EMAIL</span>
-                <a href="mailto:toba@oduwaiye.com" className="text-teal-accent hover:underline">toba@oduwaiye.com</a>
+                <a href="mailto:oduwaiye.toba@gmail.com" className="text-teal-accent hover:underline">oduwaiye.toba@gmail.com</a>
               </div>
               <div className="grid grid-cols-[100px_1fr] gap-4">
                 <span className="text-[10px] uppercase tracking-widest text-gray-500">LOCATION</span>
