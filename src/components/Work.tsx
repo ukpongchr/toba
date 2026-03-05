@@ -30,9 +30,9 @@ const Work = () => {
     {
       title: "Finding Rest",
       category: "DOCUMENTARY SHORT",
-      image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop",
+      image: "https://img.youtube.com/vi/VIxtbNwpZu4/maxresdefault.jpg",
       desc: "A visually compelling short film exploring the journey from mental chaos to clarity, set against the Swiss Alps.",
-      link: "https://youtu.be/WMoeqReF5W0"
+      link: "https://youtu.be/VIxtbNwpZu4"
     },
     {
       title: "Qubic — AI for Good Geneva",

@@ -42,9 +42,9 @@ const WorkPage = () => {
           "@type": "VideoObject",
           "name": "Finding Rest",
           "description": "A visually compelling short film exploring the journey from mental chaos to clarity, set against the Swiss Alps.",
-          "thumbnailUrl": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop",
+          "thumbnailUrl": "https://img.youtube.com/vi/VIxtbNwpZu4/maxresdefault.jpg",
           "uploadDate": "2024-01-01",
-          "contentUrl": "https://youtu.be/WMoeqReF5W0"
+          "contentUrl": "https://youtu.be/VIxtbNwpZu4"
         },
         {
           "@type": "VideoObject",

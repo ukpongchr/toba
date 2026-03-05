@@ -51,7 +51,7 @@ const NgoVideographer = () => {
             </div>
             <div className="bg-gray-800 rounded-sm overflow-hidden aspect-video relative">
                <img 
-                src="https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=2076&auto=format&fit=crop" 
+                src="https://i.imgur.com/WSEyXaH.jpeg" 
                 alt="NGO Filming" 
                 className="w-full h-full object-cover opacity-60"
               />
