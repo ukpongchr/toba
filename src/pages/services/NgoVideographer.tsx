@@ -51,9 +51,10 @@ const NgoVideographer = () => {
             </div>
             <div className="bg-gray-800 rounded-sm overflow-hidden aspect-video relative">
                <img 
-                src="https://i.imgur.com/WSEyXaH.jpeg" 
+                src="https://i.imgur.com/dm1eOGK.jpeg" 
                 alt="NGO Filming" 
                 className="w-full h-full object-cover opacity-60"
+                referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="text-teal-accent font-display font-bold text-2xl">NGO & UN PRODUCTION</span>
