@@ -50,7 +50,8 @@ const Footer = () => {
             </div>
             <div className="text-gray-600 text-[10px] uppercase tracking-widest text-right">
               Based in Geneva, Switzerland<br/>
-              © {new Date().getFullYear()} Toba Oduwaiye. All rights reserved.
+              © {new Date().getFullYear()} Toba Oduwaiye. All rights reserved.<br/>
+              <Link to="/admin/login" className="hover:text-gray-400 transition-colors mt-2 inline-block">Admin Login</Link>
             </div>
           </div>
         </div>
