@@ -5,38 +5,164 @@ import { Star } from 'lucide-react';
 const GoogleReviews = () => {
   const reviews = [
     {
-      name: "Jean-Pierre Dubois",
-      date: "2 months ago",
-      rating: 5,
-      text: "Toba is an exceptional videographer. He captured our corporate event in Geneva with such professionalism and creativity. The final video was delivered quickly and exceeded our expectations.",
-      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100" 
-    },
-    {
-      name: "Sarah Miller",
+      name: "Margaret Kafeero",
       date: "4 months ago",
       rating: 5,
-      text: "Working with Toba was a pleasure. He understood our vision for the NGO documentary perfectly. His ability to tell a story through visuals is unmatched in Geneva.",
+      text: "Toba has a talent for capturing facial expressions and making beautiful photographs. He is punctual and has such an admirable work ethic. I highly recommend.",
       image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
     },
     {
-      name: "Michael Weber",
-      date: "1 month ago",
+      name: "Annie Faye Humair",
+      date: "a year ago",
       rating: 5,
-      text: "Highly recommended! We hired Toba for a conference at the UN, and the quality of the footage was broadcast-ready. He is discreet, efficient, and very easy to work with.",
+      text: "Toba is the first class video strategist and event videographer I have ever met!! He covered my son’s first Holy Communion in Switzerland and was so focused on listening to my needs and my expectations before the event.",
       image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
     },
     {
-      name: "Elena Rodriguez",
-      date: "3 weeks ago",
+      name: "Saira Ahmed",
+      date: "a year ago",
       rating: 5,
-      text: "The best videographer in Geneva! Toba produced a promotional video for our new product launch. The attention to detail and color grading were fantastic.",
+      text: "It was great working with Toba at the World Cancer Congress 2024. He is very professional, resepctful and personable! And the videos he produced are high quality.",
       image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
     },
     {
-      name: "David Smith",
-      date: "5 months ago",
+      name: "Wale Olawole",
+      date: "2 years ago",
       rating: 5,
-      text: "Professional, reliable, and talented. Toba has a great eye for composition and lighting. He made our team feel comfortable during the interviews.",
+      text: "I had an incredible experience working with Toba Oduwaiye. His expertise and attention to detail exceeded my expectations. From the moment I reached out to inquire about his services, he was professional, responsive, and committed.",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Imoter Ugbah",
+      date: "2 years ago",
+      rating: 5,
+      text: "I had the pleasure of working with Toba Oduwaiye, and I must say, the experience was nothing short of exceptional. Toba's talent and passion for videography shine through in every frame he captures.",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "omotayo oni",
+      date: "2 years ago",
+      rating: 5,
+      text: "I contacted Toba Oduwaiye for guidance in photography when I just started learning photography and he took me through the rudiment and then advance level. He's thorough and dedicated to his work and his mentees.",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Emmanuel Sorogo",
+      date: "2 years ago",
+      rating: 5,
+      text: "Toba does excellent job. Reassured for high quality videography and always going out of his way to satisfy his clients. He’s so dependable👌",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Harsh Shah",
+      date: "2 years ago",
+      rating: 5,
+      text: "Toba and his team are our go-to camera team for anything at all in Nigeria. Very humble and easy to work with - and technically proficient. Highly recommend!",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "isaro murenzi",
+      date: "2 years ago",
+      rating: 5,
+      text: "Toba is dependable, has a great eye, creative and overall an incredible professional to work with! Have him on your team 📽🎬",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Charles Umoinyang",
+      date: "2 years ago",
+      rating: 5,
+      text: "Always fabulous. I've experienced his wonders while he was in Lagos and Abuja, I can only imagine what he'll be doing in Geneva... Should be more fabulous...",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Ralia Sorogo",
+      date: "2 years ago",
+      rating: 5,
+      text: "Had an awesome experience working with Toba. Excellent Professionalism and overall great delivery. Would recommend this business highly to anyone.",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "simon bagumaho",
+      date: "2 years ago",
+      rating: 5,
+      text: "Have had the opportunity to see Toba's work first hand and it's absolutely world class! Best in the business!",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Tobi Alasi",
+      date: "2 years ago",
+      rating: 5,
+      text: "Toba is a genuine professional and a passionate videographer with keen attention to details.",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "adebayo shofolahan",
+      date: "2 years ago",
+      rating: 5,
+      text: "Toba has worked for me for a number of years now. Very efficient and reliable video guy.",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "carolyne Bagumaho",
+      date: "2 years ago",
+      rating: 5,
+      text: "Toba is exceptional at his work, very reliable.",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "‘Deji Adeleke",
+      date: "2 years ago",
+      rating: 5,
+      text: "You can see his attention to details in every video and photo he takes",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Nigel Ndlovu",
+      date: "2 years ago",
+      rating: 5,
+      text: "Like a Michelin chef in the kitchen-Toba is with cameras. Don’t think twice.",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Emmanuel Edim",
+      date: "2 years ago",
+      rating: 5,
+      text: "Great cinematographer I must say. Excellent at his craft",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Jacqueline Mwanza",
+      date: "2 years ago",
+      rating: 5,
+      text: "Made wonderful videos. High quality video Grapher. Highly recommend 👌",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "kichime gotau",
+      date: "2 years ago",
+      rating: 5,
+      text: "This is \"a click from destination\" Kind of experience... Lovely indeed!",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Oluwafemi Alade",
+      date: "2 years ago",
+      rating: 5,
+      text: "He is extremely creative and technically sound",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Qusai Helwani",
+      date: "a year ago",
+      rating: 5,
+      text: "Highly reccommended... perfect service.",
+      image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
+    },
+    {
+      name: "Jude Emeka",
+      date: "2 years ago",
+      rating: 5,
+      text: "A passionate professional videographer.",
       image: "https://lh3.googleusercontent.com/a/ACg8ocI-J-k-k-k-k-k-k-k-k-k-k-k-k-k-k-k=s40-c-rp-mo-br100"
     }
   ];
@@ -63,7 +189,7 @@ const GoogleReviews = () => {
           </div>
         </div>
         <a 
-          href="https://maps.app.goo.gl/7YCSkp7ZoVm4UPL66?g_st=aw" 
+          href="https://maps.app.goo.gl/kY5Yfxty47Lypq3u9" 
           target="_blank" 
           rel="noopener noreferrer"
           className="btn-outline text-xs py-2 px-4"
@@ -82,7 +208,7 @@ const GoogleReviews = () => {
           transition={{ 
             repeat: Infinity, 
             ease: "linear", 
-            duration: 40 
+            duration: 200 
           }}
         >
           {[...reviews, ...reviews, ...reviews].map((review, index) => (
