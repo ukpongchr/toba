@@ -102,19 +102,32 @@ async function startServer() {
   // Auth Routes
   app.post("/api/auth/login", (req, res) => {
     const { username, password } = req.body;
+    console.log(`Login attempt for username: ${username}`);
+    
     const user = db.prepare("SELECT * FROM users WHERE username = ?").get(username);
 
     if (!user) {
+      console.log(`User not found: ${username}`);
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const validPassword = bcrypt.compareSync(password, user.password);
     if (!validPassword) {
+      console.log(`Invalid password for user: ${username}`);
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: "1h" });
-    res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
+    
+    // Set cookie with settings required for iframe/preview environment
+    res.cookie("token", token, { 
+      httpOnly: true, 
+      secure: true, // Required for SameSite=None
+      sameSite: 'none', // Required for cross-origin iframe
+      maxAge: 3600000 // 1 hour
+    });
+    
+    console.log(`Login successful for user: ${username}`);
     res.json({ message: "Logged in successfully", user: { id: user.id, username: user.username } });
   });
 
