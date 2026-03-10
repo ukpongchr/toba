@@ -22,6 +22,7 @@ const Zurich = () => {
     <>
       <Helmet>
         <title>Corporate Videographer Zurich | Finance & Tech Video Production</title>
+        <link rel="canonical" href="https://oduwaiye.com/locations/zurich" />
         <meta name="description" content="Expert corporate videography in Zurich. Specializing in financial communications, tech conferences, and executive interviews for global businesses." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

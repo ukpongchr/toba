@@ -22,6 +22,7 @@ const Bern = () => {
     <>
       <Helmet>
         <title>Videographer in Bern | Government & Public Sector Video</title>
+        <link rel="canonical" href="https://oduwaiye.com/locations/bern" />
         <meta name="description" content="Professional videographer in Bern for government agencies, embassies, and national associations. Official event coverage and policy communication." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

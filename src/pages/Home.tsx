@@ -38,6 +38,7 @@ const Home = () => {
     <>
       <Helmet>
         <title>Corporate Videographer in Geneva | Toba Oduwaiye</title>
+        <link rel="canonical" href="https://oduwaiye.com/" />
         <meta name="description" content="Broadcast-quality video production for UN agencies, NGOs, embassies and global organisations in Geneva, Switzerland. 20+ years experience. 24h preview delivery." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

@@ -22,6 +22,7 @@ const Lausanne = () => {
     <>
       <Helmet>
         <title>Corporate Videographer Lausanne | Event & Brand Video Production</title>
+        <link rel="canonical" href="https://oduwaiye.com/locations/lausanne" />
         <meta name="description" content="Professional videographer in Lausanne for international federations, corporate events, and brand storytelling. Broadcast-quality video production in Vaud." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

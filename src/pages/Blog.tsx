@@ -35,6 +35,7 @@ const Blog = () => {
     <>
       <Helmet>
         <title>Blog | Toba Oduwaiye - Videographer & Photographer</title>
+        <link rel="canonical" href="https://oduwaiye.com/blog" />
         <meta name="description" content="Insights on videography, photography, brand storytelling, and video production solutions." />
       </Helmet>
       <div className="bg-[#051126] text-white min-h-screen selection:bg-teal-accent selection:text-[#051126]">

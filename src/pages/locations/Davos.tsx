@@ -22,6 +22,7 @@ const Davos = () => {
     <>
       <Helmet>
         <title>Davos Videographer | WEF & Summit Video Production</title>
+        <link rel="canonical" href="https://oduwaiye.com/locations/davos" />
         <meta name="description" content="Premium videography services in Davos for the World Economic Forum (WEF) and high-level summits. Discreet, professional coverage for global leaders." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

@@ -8,6 +8,7 @@ const PrivacyPage = () => {
     <div className="min-h-screen bg-[#020a1a] text-white selection:bg-teal-accent selection:text-[#020a1a]">
       <Helmet>
         <title>Privacy Policy | Toba Oduwaiye - Geneva Videographer</title>
+        <link rel="canonical" href="https://oduwaiye.com/privacy" />
         <meta name="description" content="Privacy Policy for Toba Oduwaiye, Videographer in Geneva, Switzerland." />
       </Helmet>
 

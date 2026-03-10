@@ -22,6 +22,7 @@ const WhyMePage = () => {
     <>
       <Helmet>
         <title>Why Hire Toba Oduwaiye | Geneva Videographer</title>
+        <link rel="canonical" href="https://oduwaiye.com/why-me" />
         <meta name="description" content="Discover why Toba Oduwaiye is the preferred videographer for global organizations in Geneva. 20+ years experience, local expertise, and broadcast quality." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

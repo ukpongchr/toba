@@ -32,6 +32,7 @@ const AboutPage = () => {
     <>
       <Helmet>
         <title>About Toba Oduwaiye | Corporate Videographer Geneva</title>
+        <link rel="canonical" href="https://oduwaiye.com/about" />
         <meta name="description" content="Learn about Toba Oduwaiye, a Geneva-based videographer with 20+ years of experience working with the World Bank, Al Jazeera, and UN agencies." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

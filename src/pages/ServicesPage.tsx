@@ -69,6 +69,7 @@ const ServicesPage = () => {
     <>
       <Helmet>
         <title>Video Production Services Geneva | Toba Oduwaiye</title>
+        <link rel="canonical" href="https://oduwaiye.com/services" />
         <meta name="description" content="Professional video production services in Geneva including corporate videos, conference filming, documentaries, and executive photography." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

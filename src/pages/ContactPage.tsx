@@ -22,6 +22,7 @@ const ContactPage = () => {
     <>
       <Helmet>
         <title>Contact Toba Oduwaiye | Videographer Geneva</title>
+        <link rel="canonical" href="https://oduwaiye.com/contact" />
         <meta name="description" content="Contact Toba Oduwaiye for corporate video production, conference filming, and documentary projects in Geneva, Switzerland." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

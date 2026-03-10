@@ -21,6 +21,7 @@ const NgoVideographer = () => {
     <>
       <Helmet>
         <title>NGO & UN Videographer Geneva | Toba Oduwaiye</title>
+        <link rel="canonical" href="https://oduwaiye.com/services/ngo-videographer-geneva" />
         <meta name="description" content="Specialized videographer for NGOs, UN agencies, and international organizations in Geneva. Impact storytelling, field reporting, and institutional messaging." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

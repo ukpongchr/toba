@@ -62,6 +62,7 @@ const WorkPage = () => {
     <>
       <Helmet>
         <title>Portfolio | Toba Oduwaiye - Corporate Videographer Geneva</title>
+        <link rel="canonical" href="https://oduwaiye.com/work" />
         <meta name="description" content="Explore selected video production work by Toba Oduwaiye, featuring corporate films, documentaries, and event highlights for global clients." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

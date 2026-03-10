@@ -41,6 +41,7 @@ const BlogPost = () => {
     <>
       <Helmet>
         <title>{post.title} | Toba Oduwaiye</title>
+        <link rel="canonical" href={`https://oduwaiye.com/blog/${post.slug}`} />
         <meta name="description" content={post.excerpt} />
       </Helmet>
       <div className="bg-[#051126] text-white min-h-screen selection:bg-teal-accent selection:text-[#051126]">

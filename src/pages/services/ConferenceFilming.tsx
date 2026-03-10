@@ -21,6 +21,7 @@ const ConferenceFilming = () => {
     <>
       <Helmet>
         <title>Conference Filming Geneva | Toba Oduwaiye</title>
+        <link rel="canonical" href="https://oduwaiye.com/services/conference-filming-geneva" />
         <meta name="description" content="Professional conference filming in Geneva. Full event coverage, panel discussions, and highlight reels for summits and corporate events." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}

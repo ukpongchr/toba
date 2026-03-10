@@ -22,6 +22,7 @@ const Basel = () => {
     <>
       <Helmet>
         <title>Corporate Videographer Basel | Pharma & Art Video Production</title>
+        <link rel="canonical" href="https://oduwaiye.com/locations/basel" />
         <meta name="description" content="Specialist video production in Basel for pharmaceutical companies and art institutions. High-end corporate films and event coverage." />
         <script type="application/ld+json">
           {JSON.stringify(schema)}
