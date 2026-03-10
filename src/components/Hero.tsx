@@ -44,11 +44,12 @@ const Hero = () => {
               Professional Videographer in Geneva, Switzerland
             </h4>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-extrabold leading-[1.1] mb-4 md:mb-6 text-white">
-              <span>Corporate Videographer</span><br/>
-              in <span className="text-teal-accent">Geneva, Switzerland</span>
+              <span>Videographer &</span><br/>
+              <span>Video Marketing</span><br/>
+              <span>Expert in <span className="text-teal-accent">Geneva</span></span>
             </h1>
             <p className="text-gray-400 text-base md:text-lg mb-6 md:mb-8 max-w-lg leading-relaxed">
-              Broadcast-quality video production trusted by UN agencies, NGOs, embassies, and global organizations. Based in Geneva. Available across Switzerland and internationally.
+              Geneva videographer & video marketing expert with 17 years experience. Corporate films, NGO videos & brand documentaries. Trusted by World Bank & Gavi.
             </p>
             
             <div className="flex flex-wrap gap-4 mb-8 md:mb-12">
