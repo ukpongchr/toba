@@ -45,12 +45,12 @@ async function startServer() {
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
   }));
 
-  // Request Logging Middleware
-  app.use((req, res, next) => {
-    const logLine = `${new Date().toISOString()} - ${req.method} ${req.url}\n`;
-    fs.appendFileSync(path.join(process.cwd(), "request_logs.txt"), logLine);
-    next();
-  });
+  // Request Logging Middleware (Disabled for performance)
+  // app.use((req, res, next) => {
+  //   const logLine = `${new Date().toISOString()} - ${req.method} ${req.url}\n`;
+  //   fs.appendFileSync(path.join(process.cwd(), "request_logs.txt"), logLine);
+  //   next();
+  // });
 
   // Serve static files from public directory
   app.use("/uploads", express.static(path.join(process.cwd(), "public/uploads")));

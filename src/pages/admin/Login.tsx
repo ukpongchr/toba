@@ -24,11 +24,17 @@ const Login = () => {
       if (res.ok) {
         navigate('/admin/dashboard');
       } else {
-        const data = await res.json();
-        setError(data.message || 'Login failed');
+        const text = await res.text();
+        try {
+          const data = JSON.parse(text);
+          setError(data.message || 'Login failed');
+        } catch {
+          setError(`Login failed: ${text.slice(0, 100)}`);
+        }
       }
     } catch (err) {
-      setError('An error occurred');
+      console.error("Login error:", err);
+      setError(`An error occurred: ${err instanceof Error ? err.message : String(err)}`);
     }
   };
 
