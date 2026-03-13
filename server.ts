@@ -45,15 +45,6 @@ async function startServer() {
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
   }));
 
-  // Enforce non-www domain (301 Redirect www.oduwaiye.com -> oduwaiye.com)
-  app.use((req, res, next) => {
-    const host = req.headers.host || '';
-    if (host.startsWith('www.oduwaiye.com')) {
-      return res.redirect(301, `https://oduwaiye.com${req.originalUrl}`);
-    }
-    next();
-  });
-
   // Strip tracking parameters like '?i=...' to prevent duplicate content issues in SEO
   app.use((req, res, next) => {
     if (req.query.i !== undefined) {
