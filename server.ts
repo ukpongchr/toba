@@ -45,6 +45,29 @@ async function startServer() {
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
   }));
 
+  // Enforce non-www domain (301 Redirect www.oduwaiye.com -> oduwaiye.com)
+  app.use((req, res, next) => {
+    const host = req.headers.host || '';
+    if (host.startsWith('www.oduwaiye.com')) {
+      return res.redirect(301, `https://oduwaiye.com${req.originalUrl}`);
+    }
+    next();
+  });
+
+  // Strip tracking parameters like '?i=...' to prevent duplicate content issues in SEO
+  app.use((req, res, next) => {
+    if (req.query.i !== undefined) {
+      const queryParams = { ...req.query };
+      delete queryParams.i;
+      
+      const queryString = new URLSearchParams(queryParams as any).toString();
+      const newUrl = req.path + (queryString ? `?${queryString}` : '');
+      
+      return res.redirect(301, newUrl);
+    }
+    next();
+  });
+
   // Request Logging Middleware (Disabled for performance)
   // app.use((req, res, next) => {
   //   const logLine = `${new Date().toISOString()} - ${req.method} ${req.url}\n`;
@@ -58,6 +81,14 @@ async function startServer() {
   // Handle HEAD requests for WordPress compatibility
   app.head("/wp-json", (req, res) => {
     res.status(200).end();
+  });
+
+  // 301 Redirects for old URLs
+  app.get("/shigotoba", (req, res) => {
+    res.redirect(301, "/about");
+  });
+  app.get("/products/*", (req, res) => {
+    res.redirect(301, "/services");
   });
 
   // Authentication Middleware
