@@ -11,6 +11,15 @@ import cors from "cors";
 import path from "path";
 import fs from "fs";
 
+declare global {
+  namespace Express {
+    interface Request {
+      user?: any;
+      file?: any;
+    }
+  }
+}
+
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 // Configure Multer for file uploads

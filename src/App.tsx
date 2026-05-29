@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from './components/ScrollToTop';
 import WhatsAppButton from './components/WhatsAppButton';
@@ -18,6 +18,11 @@ import Basel from './pages/locations/Basel';
 import Bern from './pages/locations/Bern';
 import NgoVideographer from './pages/services/NgoVideographer';
 import ConferenceFilming from './pages/services/ConferenceFilming';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
+import Login from './pages/admin/Login';
+import Dashboard from './pages/admin/Dashboard';
+import EditPost from './pages/admin/EditPost';
 
 export default function App() {
   return (
@@ -41,6 +46,17 @@ export default function App() {
           <Route path="/locations/bern" element={<Bern />} />
           <Route path="/services/ngo-videographer-geneva" element={<NgoVideographer />} />
           <Route path="/services/conference-filming-geneva" element={<ConferenceFilming />} />
+          
+          {/* Blog Public Routes */}
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/posts/new" element={<EditPost />} />
+          <Route path="/admin/posts/:id/edit" element={<EditPost />} />
         </Routes>
       </Router>
     </HelmetProvider>

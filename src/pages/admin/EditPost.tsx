@@ -26,24 +26,41 @@ const EditPost = () => {
     image: '',
     published: false,
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [authed, setAuthed] = useState(false);
   const [preview, setPreview] = useState(false);
 
   useEffect(() => {
-    if (id) {
-      setLoading(true);
-      fetch(`/api/posts/${id}`)
-        .then(res => res.json())
-        .then(data => {
+    setLoading(true);
+    fetch('/api/auth/me')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Not authenticated');
+        }
+        return res.json();
+      })
+      .then(() => {
+        setAuthed(true);
+        if (id) {
+          return fetch(`/api/posts/${id}`);
+        } else {
+          setLoading(false);
+        }
+      })
+      .then(res => {
+        if (res) return res.json();
+      })
+      .then(data => {
+        if (data) {
           setPost(data);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error('Error fetching post:', err);
-          setLoading(false);
-        });
-    }
-  }, [id]);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Auth or post fetch error:', err);
+        navigate('/admin/login');
+      });
+  }, [id, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,6 +98,17 @@ const EditPost = () => {
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }));
   };
+
+  if (loading || !authed) {
+    return (
+      <div className="bg-[#051126] text-white min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-teal-accent mb-4"></div>
+          <p className="text-gray-400">Loading editor...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

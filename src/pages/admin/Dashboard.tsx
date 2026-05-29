@@ -16,20 +16,33 @@ interface Post {
 const Dashboard = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [authed, setAuthed] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/posts')
-      .then(res => res.json())
+    fetch('/api/auth/me')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Not authenticated');
+        }
+        return res.json();
+      })
+      .then(() => {
+        setAuthed(true);
+        return fetch('/api/posts');
+      })
+      .then(res => {
+        if (res) return res.json();
+      })
       .then(data => {
-        setPosts(data);
+        if (data) setPosts(data);
         setLoading(false);
       })
       .catch(err => {
-        console.error('Error fetching posts:', err);
-        setLoading(false);
+        console.error('Auth or data fetch error:', err);
+        navigate('/admin/login');
       });
-  }, []);
+  }, [navigate]);
 
   const handleDelete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this post?')) {
@@ -56,6 +69,17 @@ const Dashboard = () => {
       console.error('Error logging out:', err);
     }
   };
+
+  if (loading || !authed) {
+    return (
+      <div className="bg-[#051126] text-white min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-teal-accent mb-4"></div>
+          <p className="text-gray-400">Loading admin session...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

@@ -99,6 +99,7 @@ const Footer = () => {
             © {new Date().getFullYear()} Toba Oduwaiye. All rights reserved.
           </div>
           <div className="flex items-center gap-6 text-xs text-gray-500">
+            <Link to="/blog" className="hover:text-white transition-colors">Blog</Link>
             <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
