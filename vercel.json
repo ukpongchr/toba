@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/((?!api/|uploads/|wp-json/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
