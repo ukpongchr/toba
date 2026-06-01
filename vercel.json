@@ -1,8 +1,8 @@
 {
-  "cleanUrls": true,
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api" },
-    { "source": "/wp-json/:path*", "destination": "/api" },
-    { "source": "/:path*", "destination": "/index.html" }
+    { "source": "/api/:path*", "destination": "/api/index.ts" },
+    { "source": "/wp-json/:path*", "destination": "/api/index.ts" },
+    { "source": "/uploads/:path*", "destination": "/api/index.ts" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
