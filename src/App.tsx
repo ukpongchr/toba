@@ -35,8 +35,11 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/work" element={<WorkPage />} />
+          <Route path="/projects" element={<WorkPage />} />
           <Route path="/why-me" element={<WhyMePage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/request-a-quote" element={<ContactPage />} />
+          <Route path="/quote" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/locations/lausanne" element={<Lausanne />} />
