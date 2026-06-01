@@ -1,206 +1,168 @@
 import fs from 'fs';
 import path from 'path';
 import bcrypt from 'bcryptjs';
+import { initializeApp } from 'firebase/app';
+import { 
+  getFirestore, 
+  collection, 
+  doc, 
+  getDoc, 
+  getDocs, 
+  setDoc, 
+  deleteDoc, 
+  query, 
+  where 
+} from 'firebase/firestore';
 
-const FILE_PATH = process.env.VERCEL 
-  ? path.join('/tmp', 'data.json') 
-  : path.resolve('data.json');
-
-interface DBState {
-  users: any[];
-  posts: any[];
-  media: any[];
+// Load Firebase Config
+const CONFIG_PATH = path.resolve('firebase-applet-config.json');
+let firebaseConfig: any;
+try {
+  firebaseConfig = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
+} catch (error) {
+  console.error("Failed to load firebase-applet-config.json", error);
+  throw error;
 }
 
-class Database {
-  private state: DBState;
+const app = initializeApp(firebaseConfig);
+export const fstore = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 
-  constructor() {
-    this.state = this.load();
+export class FirestoreDatabase {
+  private async getNextId(collectionName: string): Promise<number> {
+    try {
+      const q = collection(fstore, collectionName);
+      const snapshot = await getDocs(q);
+      const ids = snapshot.docs.map(doc => Number(doc.data().id || 0));
+      if (ids.length === 0) return 1;
+      return Math.max(...ids) + 1;
+    } catch (err) {
+      console.error(`Error getting next ID for ${collectionName}:`, err);
+      return 1;
+    }
   }
 
-  private load(): DBState {
+  public async seedDefaultAdmin() {
     try {
-      if (fs.existsSync(FILE_PATH)) {
-        const content = fs.readFileSync(FILE_PATH, 'utf-8');
-        return JSON.parse(content);
+      const usersRef = collection(fstore, 'users');
+      const snapshot = await getDocs(usersRef);
+      if (snapshot.empty) {
+        console.log("Seeding default admin inside Firestore users collection...");
+        const hashedPassword = bcrypt.hashSync('admin123', 10);
+        await setDoc(doc(fstore, 'users', 'admin'), {
+          id: 1,
+          username: 'admin',
+          password: hashedPassword,
+          created_at: new Date().toISOString()
+        });
+        console.log("Default admin seeded successfully.");
       }
-    } catch (error) {
-      console.error('Error loading DB file:', error);
+    } catch (err) {
+      console.error("Error seeding default admin:", err);
     }
+  }
 
-    const state: DBState = {
-      users: [],
-      posts: [],
-      media: []
-    };
+  public async getUserByUsername(username: string): Promise<any | null> {
+    try {
+      if (!username) return null;
+      const q = query(collection(fstore, 'users'), where('username', '==', username));
+      const snapshot = await getDocs(q);
+      if (snapshot.empty) return null;
+      return snapshot.docs[0].data();
+    } catch (err) {
+      console.error("Error getting user by username:", err);
+      return null;
+    }
+  }
 
-    // Seed default admin user
-    const hashedPassword = bcrypt.hashSync('admin123', 10);
-    state.users.push({
-      id: 1,
-      username: 'admin',
-      password: hashedPassword
+  public async getPostBySlug(slug: string): Promise<any | null> {
+    try {
+      if (!slug) return null;
+      const q = query(collection(fstore, 'posts'), where('slug', '==', slug));
+      const snapshot = await getDocs(q);
+      if (snapshot.empty) return null;
+      return snapshot.docs[0].data();
+    } catch (err) {
+      console.error("Error getting post by slug:", err);
+      return null;
+    }
+  }
+
+  public async getMediaById(id: number): Promise<any | null> {
+    try {
+      const q = query(collection(fstore, 'media'), where('id', '==', Number(id)));
+      const snapshot = await getDocs(q);
+      if (snapshot.empty) return null;
+      return snapshot.docs[0].data();
+    } catch (err) {
+      console.error("Error getting media by id:", err);
+      return null;
+    }
+  }
+
+  public async getAllPosts(): Promise<any[]> {
+    try {
+      const q = collection(fstore, 'posts');
+      const snapshot = await getDocs(q);
+      const results = snapshot.docs.map(doc => doc.data());
+      results.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      return results;
+    } catch (err) {
+      console.error("Error getting all posts:", err);
+      return [];
+    }
+  }
+
+  public async insertUser(username: string, passwordHash: string): Promise<number> {
+    const id = await this.getNextId('users');
+    const userDocRef = doc(fstore, 'users', username.toLowerCase());
+    await setDoc(userDocRef, {
+      id,
+      username,
+      password: passwordHash,
+      created_at: new Date().toISOString()
     });
-
-    this.save(state);
-    return state;
+    return id;
   }
 
-  private save(state: DBState) {
-    try {
-      fs.writeFileSync(FILE_PATH, JSON.stringify(state, null, 2), 'utf-8');
-    } catch (error) {
-      console.error('Error saving DB file:', error);
-    }
+  public async insertPost(post: { title: string; slug: string; content: string; excerpt: string; image: string | null; published: number }): Promise<number> {
+    const id = await this.getNextId('posts');
+    const postDocRef = doc(fstore, 'posts', String(id));
+    await setDoc(postDocRef, {
+      id,
+      ...post,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    });
+    return id;
   }
 
-  public getNextId(table: 'users' | 'posts' | 'media'): number {
-    const items = this.state[table];
-    if (items.length === 0) return 1;
-    return Math.max(...items.map(item => item.id)) + 1;
+  public async updatePost(id: number, updates: any): Promise<void> {
+    const postDocRef = doc(fstore, 'posts', String(id));
+    await setDoc(postDocRef, {
+      ...updates,
+      updated_at: new Date().toISOString()
+    }, { merge: true });
   }
 
-  public insert(table: 'users' | 'posts' | 'media', item: any) {
-    this.state[table].push(item);
-    this.save(this.state);
+  public async deletePost(id: number): Promise<void> {
+    const postDocRef = doc(fstore, 'posts', String(id));
+    await deleteDoc(postDocRef);
   }
 
-  public update(table: 'users' | 'posts' | 'media', id: number, updates: any) {
-    const index = this.state[table].findIndex(item => item.id === id);
-    if (index !== -1) {
-      this.state[table][index] = { ...this.state[table][index], ...updates };
-      this.save(this.state);
-    }
-  }
-
-  public delete(table: 'users' | 'posts' | 'media', id: number) {
-    this.state[table] = this.state[table].filter(item => item.id !== id);
-    this.save(this.state);
-  }
-
-  // SQLite API compatibility methods
-  public exec(sql: string) {
-    // Schema is structured automatically in JSON database
-    return;
-  }
-
-  public prepare(sql: string) {
-    const dbInstance = this;
-    const sqlNormalized = sql.replace(/\s+/g, ' ').trim();
-
-    return {
-      get(...params: any[]): any {
-        // Users SELECT username
-        if (sqlNormalized.includes('FROM users') && sqlNormalized.includes('username = ?')) {
-          const username = params[0];
-          return dbInstance.state.users.find(u => u.username === username) || null;
-        }
-
-        // Posts SELECT slug
-        if (sqlNormalized.includes('FROM posts') && sqlNormalized.includes('slug = ?')) {
-          const slug = params[0];
-          return dbInstance.state.posts.find(p => p.slug === slug) || null;
-        }
-
-        // Media SELECT id
-        if (sqlNormalized.includes('FROM media') && sqlNormalized.includes('id = ?')) {
-          const id = Number(params[0]);
-          return dbInstance.state.media.find(m => m.id === id) || null;
-        }
-
-        console.warn('Unhandled GET SQL query:', sqlNormalized, params);
-        return null;
-      },
-
-      all(...params: any[]): any[] {
-        // Posts SELECT all
-        if (sqlNormalized.includes('FROM posts')) {
-          let results = [...dbInstance.state.posts];
-          if (sqlNormalized.includes('ORDER BY created_at DESC')) {
-            results.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-          }
-          return results;
-        }
-
-        console.warn('Unhandled ALL SQL query:', sqlNormalized, params);
-        return [];
-      },
-
-      run(...params: any[]): { lastInsertRowid: number; changes: number } {
-        // Users INSERT
-        if (sqlNormalized.includes('INSERT INTO users')) {
-          const id = dbInstance.getNextId('users');
-          const newUser = {
-            id,
-            username: params[0],
-            password: params[1],
-            created_at: new Date().toISOString()
-          };
-          dbInstance.insert('users', newUser);
-          return { lastInsertRowid: id, changes: 1 };
-        }
-
-        // Posts INSERT
-        if (sqlNormalized.includes('INSERT INTO posts')) {
-          const id = dbInstance.getNextId('posts');
-          const newPost = {
-            id,
-            title: params[0],
-            slug: params[1],
-            content: params[2],
-            excerpt: params[3],
-            image: params[4],
-            published: Number(params[5]),
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          };
-          dbInstance.insert('posts', newPost);
-          return { lastInsertRowid: id, changes: 1 };
-        }
-
-        // Posts UPDATE
-        if (sqlNormalized.includes('UPDATE posts')) {
-          const id = Number(params[6]);
-          dbInstance.update('posts', id, {
-            title: params[0],
-            slug: params[1],
-            content: params[2],
-            excerpt: params[3],
-            image: params[4],
-            published: Number(params[5]),
-            updated_at: new Date().toISOString()
-          });
-          return { lastInsertRowid: id, changes: 1 };
-        }
-
-        // Posts DELETE
-        if (sqlNormalized.includes('DELETE FROM posts') && sqlNormalized.includes('id = ?')) {
-          const id = Number(params[0]);
-          dbInstance.delete('posts', id);
-          return { lastInsertRowid: id, changes: 1 };
-        }
-
-        // Media INSERT
-        if (sqlNormalized.includes('INSERT INTO media')) {
-          const id = dbInstance.getNextId('media');
-          const newMedia = {
-            id,
-            filename: params[0],
-            url: params[1],
-            mimetype: params[2],
-            created_at: new Date().toISOString()
-          };
-          dbInstance.insert('media', newMedia);
-          return { lastInsertRowid: id, changes: 1 };
-        }
-
-        console.warn('Unhandled RUN SQL query:', sqlNormalized, params);
-        return { lastInsertRowid: 0, changes: 0 };
-      }
-    };
+  public async insertMedia(filename: string, url: string, mimetype: string): Promise<number> {
+    const id = await this.getNextId('media');
+    const mediaDocRef = doc(fstore, 'media', String(id));
+    await setDoc(mediaDocRef, {
+      id,
+      filename,
+      url,
+      mimetype,
+      created_at: new Date().toISOString()
+    });
+    return id;
   }
 }
 
-const db = new Database();
+const db = new FirestoreDatabase();
+db.seedDefaultAdmin();
 export default db;

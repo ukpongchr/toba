@@ -1,5 +1,4 @@
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
@@ -103,7 +102,7 @@ const app = express();
   };
 
   // Basic Auth Middleware for WordPress API Compatibility
-  const basicAuth = (req, res, next) => {
+  const basicAuth = async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -115,7 +114,7 @@ const app = express();
     const username = auth[0];
     const password = auth[1];
 
-    const user = db.prepare("SELECT * FROM users WHERE username = ?").get(username);
+    const user = await db.getUserByUsername(username);
 
     if (user && bcrypt.compareSync(password, user.password)) {
       req.user = user;
@@ -129,11 +128,11 @@ const app = express();
   // API Routes
 
   // Auth Routes
-  app.post("/api/auth/login", (req, res) => {
+  app.post("/api/auth/login", async (req, res) => {
     const { username, password } = req.body;
     console.log(`Login attempt for username: ${username}`);
     
-    const user = db.prepare("SELECT * FROM users WHERE username = ?").get(username);
+    const user = await db.getUserByUsername(username);
 
     if (!user) {
       console.log(`User not found: ${username}`);
@@ -170,53 +169,60 @@ const app = express();
   });
 
   // Blog Post Routes
-  app.get("/api/posts", (req, res) => {
-    const posts = db.prepare("SELECT * FROM posts ORDER BY created_at DESC").all();
+  app.get("/api/posts", async (req, res) => {
+    const posts = await db.getAllPosts();
     res.json(posts);
   });
 
-  app.get("/api/posts/:slug", (req, res) => {
-    const post = db.prepare("SELECT * FROM posts WHERE slug = ?").get(req.params.slug);
+  app.get("/api/posts/:slug", async (req, res) => {
+    const post = await db.getPostBySlug(req.params.slug);
     if (!post) return res.status(404).json({ message: "Post not found" });
     res.json(post);
   });
 
-  app.post("/api/posts", authenticateToken, (req, res) => {
+  app.post("/api/posts", authenticateToken, async (req, res) => {
     const { title, content, excerpt, image, published } = req.body;
     const slug = slugify(title, { lower: true, strict: true });
 
     try {
-      const stmt = db.prepare(
-        "INSERT INTO posts (title, slug, content, excerpt, image, published) VALUES (?, ?, ?, ?, ?, ?)"
-      );
-      const info = stmt.run(title, slug, content, excerpt, image, published ? 1 : 0);
-      res.status(201).json({ id: info.lastInsertRowid, slug });
-    } catch (err) {
+      const postId = await db.insertPost({
+        title,
+        slug,
+        content,
+        excerpt,
+        image,
+        published: published ? 1 : 0
+      });
+      res.status(201).json({ id: postId, slug });
+    } catch (err: any) {
       res.status(500).json({ message: "Error creating post", error: err.message });
     }
   });
 
-  app.put("/api/posts/:id", authenticateToken, (req, res) => {
+  app.put("/api/posts/:id", authenticateToken, async (req, res) => {
     const { title, content, excerpt, image, published } = req.body;
     const slug = slugify(title, { lower: true, strict: true });
 
     try {
-      const stmt = db.prepare(
-        "UPDATE posts SET title = ?, slug = ?, content = ?, excerpt = ?, image = ?, published = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?"
-      );
-      stmt.run(title, slug, content, excerpt, image, published ? 1 : 0, req.params.id);
+      await db.updatePost(Number(req.params.id), {
+        title,
+        slug,
+        content,
+        excerpt,
+        image,
+        published: published ? 1 : 0
+      });
       res.json({ message: "Post updated successfully" });
-    } catch (err) {
+    } catch (err: any) {
       res.status(500).json({ message: "Error updating post", error: err.message });
     }
   });
 
-  app.delete("/api/posts/:id", authenticateToken, (req, res) => {
+  app.delete("/api/posts/:id", authenticateToken, async (req, res) => {
     try {
-      const stmt = db.prepare("DELETE FROM posts WHERE id = ?");
-      stmt.run(req.params.id);
+      await db.deletePost(Number(req.params.id));
       res.json({ message: "Post deleted successfully" });
-    } catch (err) {
+    } catch (err: any) {
       res.status(500).json({ message: "Error deleting post", error: err.message });
     }
   });
@@ -285,7 +291,7 @@ const app = express();
   });
 
   // 3. Create Post Endpoint
-  app.post("/wp-json/wp/v2/posts", basicAuth, (req, res) => {
+  app.post("/wp-json/wp/v2/posts", basicAuth, async (req, res) => {
     const { title, content, excerpt, status, featured_media } = req.body;
     
     // Handle title/content as objects (WP standard) or strings
@@ -301,7 +307,7 @@ const app = express();
     if (featured_media) {
       // If it's a number (ID), look it up in our media table
       if (typeof featured_media === 'number') {
-        const media = db.prepare("SELECT url FROM media WHERE id = ?").get(featured_media);
+        const media = await db.getMediaById(featured_media);
         if (media) {
           image = media.url;
         }
@@ -320,17 +326,21 @@ const app = express();
     }
 
     try {
-      const stmt = db.prepare(
-        "INSERT INTO posts (title, slug, content, excerpt, image, published) VALUES (?, ?, ?, ?, ?, ?)"
-      );
-      const info = stmt.run(titleText, slug, contentText, excerptText, image, published);
+      const postId = await db.insertPost({
+        title: titleText,
+        slug,
+        content: contentText,
+        excerpt: excerptText,
+        image,
+        published
+      });
       
       const protocol = req.headers["x-forwarded-proto"] || "http";
       const host = req.headers.host;
       const baseUrl = process.env.APP_URL || `${protocol}://${host}`;
 
       res.status(201).json({
-        id: info.lastInsertRowid,
+        id: postId,
         date: new Date().toISOString(),
         date_gmt: new Date().toISOString(),
         guid: { rendered: `${baseUrl}/blog/${slug}` },
@@ -354,14 +364,14 @@ const app = express();
         categories: [],
         tags: []
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error("WP API Error:", err);
       res.status(500).json({ code: "internal_server_error", message: err.message, data: { status: 500 } });
     }
   });
 
   // 4. Media Upload Endpoint
-  app.post("/wp-json/wp/v2/media", basicAuth, upload.single("file"), (req, res) => {
+  app.post("/wp-json/wp/v2/media", basicAuth, upload.single("file"), async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ code: "rest_upload_no_content", message: "No content provided.", data: { status: 400 } });
     }
@@ -372,11 +382,10 @@ const app = express();
     const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
 
     try {
-      const stmt = db.prepare("INSERT INTO media (filename, url, mimetype) VALUES (?, ?, ?)");
-      const info = stmt.run(req.file.filename, fileUrl, req.file.mimetype);
+      const mediaId = await db.insertMedia(req.file.filename, fileUrl, req.file.mimetype);
       
       res.status(201).json({
-        id: info.lastInsertRowid,
+        id: mediaId,
         date: new Date().toISOString(),
         date_gmt: new Date().toISOString(),
         guid: { rendered: fileUrl },
@@ -406,7 +415,7 @@ const app = express();
         post: null,
         source_url: fileUrl
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error("WP Media Error:", err);
       res.status(500).json({ code: "internal_server_error", message: err.message, data: { status: 500 } });
     }
@@ -442,6 +451,7 @@ const app = express();
   if (!process.env.VERCEL) {
     const PORT = 3000;
     const startDevServer = async () => {
+      const { createServer: createViteServer } = await import("vite");
       const vite = await createViteServer({
         server: { middlewareMode: true },
         appType: "spa",

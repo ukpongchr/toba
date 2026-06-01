@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with login credentials",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number", "description": "Unique user ID" },
+        "username": { "type": "string", "description": "The login username" },
+        "password": { "type": "string", "description": "HMAC or bcrypt hash of the user password" },
+        "created_at": { "type": "string", "format": "date-time", "description": "Creation time string" }
+      },
+      "required": ["id", "username", "password"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Blog posts content written by admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "content": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "image": { "type": "string" },
+        "published": { "type": "number" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "slug", "content", "published"]
+    },
+    "Media": {
+      "title": "Media",
+      "description": "Uploaded media elements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "filename": { "type": "string" },
+        "url": { "type": "string" },
+        "mimetype": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "filename", "url", "mimetype"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profile document storage"
+    },
+    "posts/{postId}": {
+      "schema": "Post",
+      "description": "Blog publishing collection"
+    },
+    "media/{mediaId}": {
+      "schema": "Media",
+      "description": "Uploaded files tracker"
+    }
+  }
+}
