@@ -1,18 +1,8 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/about", "destination": "/index.html" },
-    { "source": "/services", "destination": "/index.html" },
-    { "source": "/work", "destination": "/index.html" },
-    { "source": "/why-me", "destination": "/index.html" },
-    { "source": "/contact", "destination": "/index.html" },
-    { "source": "/privacy", "destination": "/index.html" },
-    { "source": "/terms", "destination": "/index.html" },
-    { "source": "/locations/:path*", "destination": "/index.html" },
-    { "source": "/services/:path*", "destination": "/index.html" },
-    { "source": "/blog", "destination": "/index.html" },
-    { "source": "/blog/:path*", "destination": "/index.html" },
-    { "source": "/admin", "destination": "/index.html" },
-    { "source": "/admin/:path*", "destination": "/index.html" }
+    { "source": "/api/:path*", "destination": "/api" },
+    { "source": "/wp-json/:path*", "destination": "/api" },
+    { "source": "/((?!api|uploads|wp-json|assets).*)", "destination": "/index.html" }
   ]
 }

@@ -2,7 +2,7 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import bcrypt from 'bcryptjs';
 
-const dbPath = path.resolve('data.db');
+const dbPath = process.env.VERCEL ? path.join('/tmp', 'data.db') : path.resolve('data.db');
 const db = new Database(dbPath);
 
 // Initialize database

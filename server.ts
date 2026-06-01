@@ -39,9 +39,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-async function startServer() {
-  const app = express();
-  const PORT = 3000;
+const app = express();
 
   // Enable gzip compression
   app.use(compression());
@@ -440,26 +438,21 @@ async function startServer() {
     res.json({ status: "ok" });
   });
 
-  // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-  } else {
-    // Production static file serving would go here
-    // For this environment, we primarily focus on the dev setup with compression enabled
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
+  // Vite middleware for development (only run if not inside Vercel environment)
+  if (!process.env.VERCEL) {
+    const PORT = 3000;
+    const startDevServer = async () => {
+      const vite = await createViteServer({
+        server: { middlewareMode: true },
+        appType: "spa",
+      });
+      app.use(vite.middlewares);
+      
+      app.listen(PORT, "0.0.0.0", () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+      });
+    };
+    startDevServer();
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
-
-startServer();
+export default app;
