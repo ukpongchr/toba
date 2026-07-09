@@ -19,7 +19,7 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/posts')
+    fetch('/backend-api/posts')
       .then(res => res.json())
       .then(data => {
         setPosts(data);

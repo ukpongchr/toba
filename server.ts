@@ -128,7 +128,7 @@ const app = express();
   // API Routes
 
   // Auth Routes
-  app.post("/api/auth/login", async (req, res) => {
+  app.post(["/api/auth/login", "/backend-api/auth/login"], async (req, res) => {
     const { username, password } = req.body;
     console.log(`Login attempt for username: ${username}`);
     
@@ -159,28 +159,28 @@ const app = express();
     res.json({ message: "Logged in successfully", user: { id: user.id, username: user.username } });
   });
 
-  app.post("/api/auth/logout", (req, res) => {
+  app.post(["/api/auth/logout", "/backend-api/auth/logout"], (req, res) => {
     res.clearCookie("token");
     res.json({ message: "Logged out successfully" });
   });
 
-  app.get("/api/auth/me", authenticateToken, (req, res) => {
+  app.get(["/api/auth/me", "/backend-api/auth/me"], authenticateToken, (req, res) => {
     res.json({ user: req.user });
   });
 
   // Blog Post Routes
-  app.get("/api/posts", async (req, res) => {
+  app.get(["/api/posts", "/backend-api/posts"], async (req, res) => {
     const posts = await db.getAllPosts();
     res.json(posts);
   });
 
-  app.get("/api/posts/:slug", async (req, res) => {
+  app.get(["/api/posts/:slug", "/backend-api/posts/:slug"], async (req, res) => {
     const post = await db.getPostBySlug(req.params.slug);
     if (!post) return res.status(404).json({ message: "Post not found" });
     res.json(post);
   });
 
-  app.post("/api/posts", authenticateToken, async (req, res) => {
+  app.post(["/api/posts", "/backend-api/posts"], authenticateToken, async (req, res) => {
     const { title, content, excerpt, image, published } = req.body;
     const slug = slugify(title, { lower: true, strict: true });
 
@@ -199,7 +199,7 @@ const app = express();
     }
   });
 
-  app.put("/api/posts/:id", authenticateToken, async (req, res) => {
+  app.put(["/api/posts/:id", "/backend-api/posts/:id"], authenticateToken, async (req, res) => {
     const { title, content, excerpt, image, published } = req.body;
     const slug = slugify(title, { lower: true, strict: true });
 
@@ -218,7 +218,7 @@ const app = express();
     }
   });
 
-  app.delete("/api/posts/:id", authenticateToken, async (req, res) => {
+  app.delete(["/api/posts/:id", "/backend-api/posts/:id"], authenticateToken, async (req, res) => {
     try {
       await db.deletePost(Number(req.params.id));
       res.json({ message: "Post deleted successfully" });
@@ -228,7 +228,7 @@ const app = express();
   });
 
   // Contact / Lead Routes
-  app.post("/api/contact", async (req, res) => {
+  app.post(["/api/contact", "/backend-api/contact"], async (req, res) => {
     const { name, organisation, email, service, details } = req.body;
     if (!name || !email || !details) {
       return res.status(400).json({ message: "Name, email, and details are required." });
@@ -249,7 +249,7 @@ const app = express();
     }
   });
 
-  app.get("/api/contacts", authenticateToken, async (req, res) => {
+  app.get(["/api/contacts", "/backend-api/contacts"], authenticateToken, async (req, res) => {
     try {
       const contacts = await db.getAllContacts();
       res.json(contacts);
@@ -258,7 +258,7 @@ const app = express();
     }
   });
 
-  app.delete("/api/contacts/:id", authenticateToken, async (req, res) => {
+  app.delete(["/api/contacts/:id", "/backend-api/contacts/:id"], authenticateToken, async (req, res) => {
     try {
       await db.deleteContact(req.params.id);
       res.json({ message: "Contact inquiry deleted successfully" });
@@ -483,7 +483,7 @@ const app = express();
     res.json([]);
   });
 
-  app.get("/api/health", (req, res) => {
+  app.get(["/api/health", "/backend-api/health"], (req, res) => {
     res.json({ status: "ok" });
   });
 
@@ -499,6 +499,7 @@ const app = express();
     app.get("*", (req, res, next) => {
       if (
         req.path.startsWith("/api") ||
+        req.path.startsWith("/backend-api") ||
         req.path.startsWith("/uploads") ||
         req.path.startsWith("/wp-json")
       ) {

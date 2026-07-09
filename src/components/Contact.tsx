@@ -19,7 +19,7 @@ const Contact = () => {
     setIsSubmitting(true);
     setErrorMsg('');
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('/backend-api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -32,7 +32,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/auth/me')
+    fetch('/backend-api/auth/me')
       .then(res => {
         if (!res.ok) {
           throw new Error('Not authenticated');
@@ -42,8 +42,8 @@ const Dashboard = () => {
       .then(() => {
         setAuthed(true);
         return Promise.all([
-          fetch('/api/posts').then(res => res.json()),
-          fetch('/api/contacts').then(res => res.json()).catch(() => [])
+          fetch('/backend-api/posts').then(res => res.json()),
+          fetch('/backend-api/contacts').then(res => res.json()).catch(() => [])
         ]);
       })
       .then(([postsData, contactsData]) => {
@@ -60,7 +60,7 @@ const Dashboard = () => {
   const handleDelete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
-        const res = await fetch(`/api/posts/${id}`, {
+        const res = await fetch(`/backend-api/posts/${id}`, {
           method: 'DELETE',
         });
         if (res.ok) {
@@ -77,7 +77,7 @@ const Dashboard = () => {
   const handleDeleteContact = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this contact inquiry?')) {
       try {
-        const res = await fetch(`/api/contacts/${id}`, {
+        const res = await fetch(`/backend-api/contacts/${id}`, {
           method: 'DELETE',
         });
         if (res.ok) {
@@ -93,7 +93,7 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await fetch('/backend-api/auth/logout', { method: 'POST' });
       navigate('/admin/login');
     } catch (err) {
       console.error('Error logging out:', err);

@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/backend-api/:path*", "destination": "/api/index.ts" },
     { "source": "/api/:path*", "destination": "/api/index.ts" },
     { "source": "/wp-json/:path*", "destination": "/api/index.ts" },
     { "source": "/uploads/:path*", "destination": "/api/index.ts" },

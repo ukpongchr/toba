@@ -32,7 +32,7 @@ const EditPost = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('/api/auth/me')
+    fetch('/backend-api/auth/me')
       .then(res => {
         if (!res.ok) {
           throw new Error('Not authenticated');
@@ -42,7 +42,7 @@ const EditPost = () => {
       .then(() => {
         setAuthed(true);
         if (id) {
-          return fetch(`/api/posts/${id}`);
+          return fetch(`/backend-api/posts/${id}`);
         } else {
           setLoading(false);
         }
@@ -66,7 +66,7 @@ const EditPost = () => {
     e.preventDefault();
     setLoading(true);
 
-    const url = id ? `/api/posts/${id}` : '/api/posts';
+    const url = id ? `/backend-api/posts/${id}` : '/backend-api/posts';
     const method = id ? 'PUT' : 'POST';
 
     try {
