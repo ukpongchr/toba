@@ -25,11 +25,15 @@ const Login = () => {
         navigate('/admin/dashboard');
       } else {
         const text = await res.text();
-        try {
-          const data = JSON.parse(text);
-          setError(data.message || 'Login failed');
-        } catch {
-          setError(`Login failed: ${text.slice(0, 100)}`);
+        if (text.trim().startsWith('<!DOCTYPE html>') || text.trim().startsWith('<html')) {
+          setError('Login failed: The API request was routed to a WordPress or static server instead of the Node.js/Express backend. Please ensure your backend server is running and API requests are not being intercepted.');
+        } else {
+          try {
+            const data = JSON.parse(text);
+            setError(data.message || 'Login failed');
+          } catch {
+            setError(`Login failed: ${text.slice(0, 100)}`);
+          }
         }
       }
     } catch (err) {
