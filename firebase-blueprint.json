@@ -41,6 +41,21 @@
         "created_at": { "type": "string", "format": "date-time" }
       },
       "required": ["id", "filename", "url", "mimetype"]
+    },
+    "Contact": {
+      "title": "Contact",
+      "description": "Contact form and quote requests",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique contact ID" },
+        "name": { "type": "string" },
+        "organisation": { "type": "string" },
+        "email": { "type": "string" },
+        "service": { "type": "string" },
+        "details": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "details"]
     }
   },
   "firestore": {
@@ -55,6 +70,10 @@
     "media/{mediaId}": {
       "schema": "Media",
       "description": "Uploaded files tracker"
+    },
+    "contacts/{contactId}": {
+      "schema": "Contact",
+      "description": "Inbound quote and contact submissions"
     }
   }
 }

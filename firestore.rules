@@ -17,5 +17,9 @@ service cloud.firestore {
     match /media/{mediaId} {
       allow read, write: if true;
     }
+
+    match /contacts/{contactId} {
+      allow read, write: if true;
+    }
   }
 }

@@ -161,6 +161,35 @@ export class FirestoreDatabase {
     });
     return id;
   }
+
+  public async insertContact(contact: { name: string; organisation?: string; email: string; service: string; details: string }): Promise<string> {
+    const id = doc(collection(fstore, 'contacts')).id;
+    const contactDocRef = doc(fstore, 'contacts', id);
+    await setDoc(contactDocRef, {
+      id,
+      ...contact,
+      created_at: new Date().toISOString()
+    });
+    return id;
+  }
+
+  public async getAllContacts(): Promise<any[]> {
+    try {
+      const q = collection(fstore, 'contacts');
+      const snapshot = await getDocs(q);
+      const results = snapshot.docs.map(doc => doc.data());
+      results.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      return results;
+    } catch (err) {
+      console.error("Error getting all contacts:", err);
+      return [];
+    }
+  }
+
+  public async deleteContact(id: string): Promise<void> {
+    const contactDocRef = doc(fstore, 'contacts', id);
+    await deleteDoc(contactDocRef);
+  }
 }
 
 const db = new FirestoreDatabase();

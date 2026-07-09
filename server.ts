@@ -227,6 +227,46 @@ const app = express();
     }
   });
 
+  // Contact / Lead Routes
+  app.post("/api/contact", async (req, res) => {
+    const { name, organisation, email, service, details } = req.body;
+    if (!name || !email || !details) {
+      return res.status(400).json({ message: "Name, email, and details are required." });
+    }
+
+    try {
+      const contactId = await db.insertContact({
+        name,
+        organisation,
+        email,
+        service: service || "General Inquiry",
+        details
+      });
+      res.status(201).json({ message: "Message submitted successfully", id: contactId });
+    } catch (err: any) {
+      console.error("Error submitting contact:", err);
+      res.status(500).json({ message: "Error submitting message", error: err.message });
+    }
+  });
+
+  app.get("/api/contacts", authenticateToken, async (req, res) => {
+    try {
+      const contacts = await db.getAllContacts();
+      res.json(contacts);
+    } catch (err: any) {
+      res.status(500).json({ message: "Error fetching contacts", error: err.message });
+    }
+  });
+
+  app.delete("/api/contacts/:id", authenticateToken, async (req, res) => {
+    try {
+      await db.deleteContact(req.params.id);
+      res.json({ message: "Contact inquiry deleted successfully" });
+    } catch (err: any) {
+      res.status(500).json({ message: "Error deleting contact", error: err.message });
+    }
+  });
+
   // WordPress Compatibility Layer (for WordRocket Integration)
   
   // 1. Root Endpoint - Identifies as WordPress

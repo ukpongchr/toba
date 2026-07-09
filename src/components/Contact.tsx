@@ -12,14 +12,40 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    setErrorMsg('');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState),
+      });
+
+      if (res.ok) {
+        setIsSubmitted(true);
+        setFormState({
+          name: '',
+          organisation: '',
+          email: '',
+          service: '',
+          details: ''
+        });
+      } else {
+        const data = await res.json();
+        setErrorMsg(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      setErrorMsg('Failed to connect to the server. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -177,6 +203,12 @@ const Contact = () => {
                     placeholder="Tell me about your project — type of project, event date, location, deliverables required, and your deadline..."
                   />
                 </motion.div>
+
+                {errorMsg && (
+                  <div className="bg-red-500/10 text-red-500 border border-red-500/20 p-4 text-sm rounded-sm">
+                    {errorMsg}
+                  </div>
+                )}
 
                 <motion.button 
                   type="submit"
