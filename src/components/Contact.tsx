@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Check } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const Contact = () => {
   const [formState, setFormState] = useState({
@@ -19,7 +20,7 @@ const Contact = () => {
     setIsSubmitting(true);
     setErrorMsg('');
     try {
-      const res = await fetch('/backend-api/contact', {
+      const res = await fetch(`${API_BASE_URL}/backend-api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

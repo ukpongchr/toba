@@ -18,9 +18,9 @@ const WorkPage = () => {
           "@type": "VideoObject",
           "name": "Africa Collective — Africa Business Day",
           "description": "High-level event films for Africa Collective and the Swiss Africa Business Circle across Geneva, Baden, Basel, and Davos.",
-          "thumbnailUrl": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
+          "thumbnailUrl": "https://img.youtube.com/vi/Pp5rIXqhHg8/maxresdefault.jpg",
           "uploadDate": "2024-01-01",
-          "contentUrl": "https://youtu.be/80zF_R8pjz8"
+          "contentUrl": "https://youtu.be/Pp5rIXqhHg8?si=HvTlaYJz1WpTtwzG"
         },
         {
           "@type": "VideoObject",

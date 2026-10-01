@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import ReactMarkdown from 'react-markdown';
 import { Save, Eye, X } from 'lucide-react';
+import { API_BASE_URL } from '../../config';
 
 interface Post {
   id?: number;
@@ -32,7 +33,7 @@ const EditPost = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('/backend-api/auth/me')
+    fetch(`${API_BASE_URL}/backend-api/auth/me`)
       .then(res => {
         if (!res.ok) {
           throw new Error('Not authenticated');
@@ -42,7 +43,7 @@ const EditPost = () => {
       .then(() => {
         setAuthed(true);
         if (id) {
-          return fetch(`/backend-api/posts/${id}`);
+          return fetch(`${API_BASE_URL}/backend-api/posts/${id}`);
         } else {
           setLoading(false);
         }
@@ -66,7 +67,7 @@ const EditPost = () => {
     e.preventDefault();
     setLoading(true);
 
-    const url = id ? `/backend-api/posts/${id}` : '/backend-api/posts';
+    const url = id ? `${API_BASE_URL}/backend-api/posts/${id}` : `${API_BASE_URL}/backend-api/posts`;
     const method = id ? 'PUT' : 'POST';
 
     try {

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { API_BASE_URL } from '../../config';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -13,7 +14,7 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('/backend-api/auth/login', {
+      const res = await fetch(`${API_BASE_URL}/backend-api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ReactMarkdown from 'react-markdown';
 import { Calendar, ArrowLeft } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 interface Post {
   id: number;
@@ -22,7 +23,7 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/backend-api/posts/${slug}`)
+    fetch(`${API_BASE_URL}/backend-api/posts/${slug}`)
       .then(res => res.json())
       .then(data => {
         setPost(data);

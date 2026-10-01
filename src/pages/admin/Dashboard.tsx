@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { Plus, Edit, Trash, LogOut } from 'lucide-react';
+import { API_BASE_URL } from '../../config';
 
 interface Post {
   id: number;
@@ -32,7 +33,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/backend-api/auth/me')
+    fetch(`${API_BASE_URL}/backend-api/auth/me`)
       .then(res => {
         if (!res.ok) {
           throw new Error('Not authenticated');
@@ -42,8 +43,8 @@ const Dashboard = () => {
       .then(() => {
         setAuthed(true);
         return Promise.all([
-          fetch('/backend-api/posts').then(res => res.json()),
-          fetch('/backend-api/contacts').then(res => res.json()).catch(() => [])
+          fetch(`${API_BASE_URL}/backend-api/posts`).then(res => res.json()),
+          fetch(`${API_BASE_URL}/backend-api/contacts`).then(res => res.json()).catch(() => [])
         ]);
       })
       .then(([postsData, contactsData]) => {
@@ -60,7 +61,7 @@ const Dashboard = () => {
   const handleDelete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
-        const res = await fetch(`/backend-api/posts/${id}`, {
+        const res = await fetch(`${API_BASE_URL}/backend-api/posts/${id}`, {
           method: 'DELETE',
         });
         if (res.ok) {
@@ -77,7 +78,7 @@ const Dashboard = () => {
   const handleDeleteContact = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this contact inquiry?')) {
       try {
-        const res = await fetch(`/backend-api/contacts/${id}`, {
+        const res = await fetch(`${API_BASE_URL}/backend-api/contacts/${id}`, {
           method: 'DELETE',
         });
         if (res.ok) {
@@ -93,7 +94,7 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch('/backend-api/auth/logout', { method: 'POST' });
+      await fetch(`${API_BASE_URL}/backend-api/auth/logout`, { method: 'POST' });
       navigate('/admin/login');
     } catch (err) {
       console.error('Error logging out:', err);

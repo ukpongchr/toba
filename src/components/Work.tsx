@@ -9,9 +9,9 @@ const Work = () => {
     {
       title: "Africa Collective — Africa Business Day",
       category: "CORPORATE EVENT FILM",
-      image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
+      image: "https://img.youtube.com/vi/Pp5rIXqhHg8/maxresdefault.jpg",
       desc: "High-level event films for Africa Collective and the Swiss Africa Business Circle across Geneva, Baden, Basel, and Davos.",
-      link: "https://youtu.be/80zF_R8pjz8"
+      link: "https://youtu.be/Pp5rIXqhHg8?si=HvTlaYJz1WpTtwzG"
     },
     {
       title: "Glander International Bunkering — Trader Talk",

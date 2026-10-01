@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Calendar, ArrowRight } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 interface Post {
   id: number;
@@ -19,7 +20,7 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/backend-api/posts')
+    fetch(`${API_BASE_URL}/backend-api/posts`)
       .then(res => res.json())
       .then(data => {
         setPosts(data);
