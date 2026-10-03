@@ -115,7 +115,8 @@ const About = () => {
                 src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1&rel=0`} 
                 title="YouTube video player" 
                 className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               ></iframe>
             </motion.div>
