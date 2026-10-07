@@ -50,9 +50,9 @@ const WorkPage = () => {
           "@type": "VideoObject",
           "name": "Qubic — AI for Good Geneva",
           "description": "Commissioned to film and edit Qubic's exclusive Geneva gathering during AI for Good week.",
-          "thumbnailUrl": "https://images.unsplash.com/photo-1591453089816-0fbb971b454c?q=80&w=2070&auto=format&fit=crop",
+          "thumbnailUrl": "https://img.youtube.com/vi/1kg4cd1pjLo/sddefault.jpg",
           "uploadDate": "2024-01-01",
-          "contentUrl": "https://youtu.be/WMoeqReF5W0"
+          "contentUrl": "https://youtu.be/1kg4cd1pjLo?si=IZ2wTgsYO77_m-0f"
         }
       ]
     }

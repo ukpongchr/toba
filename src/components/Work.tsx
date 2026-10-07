@@ -37,9 +37,9 @@ const Work = () => {
     {
       title: "Qubic — AI for Good Geneva",
       category: "EVENT HIGHLIGHT FILM",
-      image: "https://images.unsplash.com/photo-1591453089816-0fbb971b454c?q=80&w=2070&auto=format&fit=crop",
+      image: "https://img.youtube.com/vi/1kg4cd1pjLo/sddefault.jpg",
       desc: "Commissioned to film and edit Qubic's exclusive Geneva gathering during AI for Good week.",
-      link: "https://youtu.be/WMoeqReF5W0"
+      link: "https://youtu.be/1kg4cd1pjLo?si=IZ2wTgsYO77_m-0f"
     }
   ];
 
