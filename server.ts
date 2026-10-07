@@ -489,11 +489,12 @@ const app = express();
 
   // Handle Static Files & Client-Side Routing Fallback based on environment or dist folder presence
   const distPath = path.join(process.cwd(), "dist");
-  const isProd = process.env.NODE_ENV === "production" || fs.existsSync(distPath);
+  const isDev = process.env.NODE_ENV === "development" || process.argv.some(arg => arg.includes("tsx"));
+  const isProd = !isDev && (process.env.NODE_ENV === "production" || fs.existsSync(distPath));
 
   if (isProd) {
-    // Serve static compiled assets
-    app.use(express.static(distPath));
+    // Serve static compiled assets; disable directory auto-indexing so SPA routes don't 301 redirect
+    app.use(express.static(distPath, { index: false }));
     
     // Handle all other routing by falling back to index.html (SPA client-side router handles this)
     app.get("*", (req, res, next) => {
@@ -510,9 +511,9 @@ const app = express();
 
     // Start production server if not inside Vercel
     if (!process.env.VERCEL) {
-      const PORT = 3000;
+      const PORT = parseInt(process.env.PORT || "3000", 10);
       app.listen(PORT, "0.0.0.0", () => {
-        console.log(`Production server running on http://localhost:${PORT}`);
+        console.log(`Production server running on http://0.0.0.0:${PORT}`);
       });
     }
   } else {

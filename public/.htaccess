@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Serve existing physical files directly (assets, images, scripts, robots.txt, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # Route everything else to index.html for React Router client-side routing
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Fallback error document to index.html for 404s
+ErrorDocument 404 /index.html
