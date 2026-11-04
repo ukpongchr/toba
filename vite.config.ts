@@ -41,6 +41,7 @@ function spaDeploymentPlugin(): Plugin {
         'admin',
         'admin/login',
         'admin/dashboard',
+        'admin/posts/new',
       ];
 
       for (const route of routes) {
@@ -92,6 +93,7 @@ export default defineConfig(({mode}) => {
       port: 3000,
     },
     build: {
+      target: 'es2022',
       outDir: 'dist',
       rollupOptions: {
         output: {

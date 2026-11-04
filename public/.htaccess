@@ -1,14 +1,38 @@
+# ----------------------------------------------------------------------
+# React SPA Client-Side Routing for Hostinger / LiteSpeed / Apache
+# ----------------------------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # Serve existing physical files directly (assets, images, scripts, robots.txt, etc.)
-  RewriteCond %{REQUEST_FILENAME} -f
+  # If requesting index.html directly, stop rewriting
+  RewriteRule ^index\.html$ - [L]
+
+  # If the requested path is an existing file, directory, or symlink, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d [OR]
+  RewriteCond %{REQUEST_FILENAME} -l
   RewriteRule ^ - [L]
 
-  # Route everything else to index.html for React Router client-side routing
-  RewriteRule ^ index.html [L]
+  # Route all other URLs (e.g. /work, /why-me, /services) to /index.html
+  RewriteRule . /index.html [L]
 </IfModule>
 
-# Fallback error document to index.html for 404s
-ErrorDocument 404 /index.html
+# ----------------------------------------------------------------------
+# Security Headers for Live Site Hardening
+# ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+  # Prevent MIME-type sniffing
+  Header always set X-Content-Type-Options "nosniff"
+  # Protect against clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+  # Referrer policy for privacy & security
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # Prevent sensitive caching of HTML files
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
+

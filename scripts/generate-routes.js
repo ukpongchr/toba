@@ -42,7 +42,8 @@ const routes = [
   'services/conference-filming-geneva',
   'admin',
   'admin/login',
-  'admin/dashboard'
+  'admin/dashboard',
+  'admin/posts/new'
 ];
 
 for (const route of routes) {
