@@ -1,20 +1,33 @@
 # ----------------------------------------------------------------------
-# React SPA Client-Side Routing for Hostinger / LiteSpeed / Apache
+# 1. Default Directory Index (Prevents 403 Forbidden on root /)
+# ----------------------------------------------------------------------
+DirectoryIndex index.html index.php
+
+# ----------------------------------------------------------------------
+# 2. React SPA Client-Side Routing for Hostinger / LiteSpeed / Apache
 # ----------------------------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
+  # Serve index.html directly for the root URL (prevents 403 Directory Listing error)
+  RewriteRule ^$ index.html [L]
+
   # If requesting index.html directly, stop rewriting
   RewriteRule ^index\.html$ - [L]
 
-  # If the requested path is an existing file, directory, or symlink, serve it directly
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d [OR]
-  RewriteCond %{REQUEST_FILENAME} -l
+  # If the requested path is an existing file, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # If the requested path is an existing directory with its own index.html, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
   RewriteRule ^ - [L]
 
   # Route all other URLs (e.g. /work, /why-me, /services) to /index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
 </IfModule>
 
